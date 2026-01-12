@@ -1,0 +1,58 @@
+# wlddc configuration
+# Copy to ~/.config/wlddc/config.yaml or use --config flag
+#
+# Configuration can also be provided via environment variables:
+#   WLDDC_MQTT__BROKER=homeassistant.local
+#   WLDDC_MQTT__USERNAME=mqtt-user
+#   etc.
+#
+# Environment variables take precedence over config file values.
+
+mqtt:
+  # MQTT broker hostname or IP address
+  broker: homeassistant.local
+  port: 1883
+
+  # MQTT authentication (optional if broker allows anonymous)
+  username: mqtt-user
+  password: your-password-here
+
+  # Client identifier (must be unique per client)
+  client_id: wlddc
+
+  # Connection settings
+  keepalive: 60
+  reconnect_interval: 5.0 # Initial reconnect delay in seconds
+  reconnect_max_interval: 120.0 # Maximum reconnect delay (with backoff)
+
+homeassistant:
+  # MQTT discovery prefix (default is 'homeassistant')
+  discovery_prefix: homeassistant
+
+  # Device identifier (used in topics and entity IDs)
+  device_id: rpi_monitors
+
+  # Display name in Home Assistant
+  device_name: "Raspberry Pi Monitors"
+
+agent:
+  # How often to poll display state (seconds)
+  poll_interval: 30
+
+  # Timeout for wlr-randr/ddcutil commands (seconds)
+  command_timeout: 10.0
+
+  # Number of retries for ddcutil commands (can be flaky on some hardware)
+  ddcutil_retries: 2
+
+  # Log level: DEBUG, INFO, WARNING, ERROR
+  log_level: INFO
+# Optional: Manual display-to-DDC bus mappings
+# Use this if auto-detection fails to correlate displays correctly.
+# Run 'wlddc detect' to see available displays and their info.
+#
+# display_overrides:
+#   - output_name: HDMI-A-1    # wlr-randr output name
+#     ddc_bus: 7               # I2C bus number (from ddcutil detect)
+#     brightness_enabled: true # Enable brightness control
+#     power_enabled: true      # Enable power control
